@@ -7,6 +7,8 @@
 #define SSIZE_OF_BUFF 6
 
 #include <cstdio>
+#include <cerrno>
+#include "Helper.h"
 
 typedef struct{
     long  	custid;
@@ -23,8 +25,13 @@ class RecordReader {
 public:
     RecordReader(char*);
     MyRecord* fetchAllRecords();
+    int getRecordsNumber();
 private:
-    const char* READING_MODE;
+    const char* filename;
+    int recordsNumber;
+    static const char* READING_MODE;
+    static const char* NO_INPUT_FILE_ERROR;
+    static const char* ERROR_OPENING_FILE_MESSAGE;
 };
 
 
