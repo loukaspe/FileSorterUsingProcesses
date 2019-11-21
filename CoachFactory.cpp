@@ -2,12 +2,21 @@
 
 const char* CoachFactory::FORK_ERROR = "ERROR: fork() failed to create a new process";
 
-void CoachFactory::getCoaches(
+void CoachFactory::createCoachesAndDoAction(
         int numberOfCoaches,
-        char* filename,
-        char** pipeNames
+        char* recordsFilename,
+        char** pipeNames,
+        long bufferSize,
+        MyRecord* records,
+        int numberOfRecords,
+        SorterType* sorterTypes
 ) {
+    Coach** coaches = (Coach**) malloc (
+        numberOfCoaches * sizeof( Coach* )
+    );
+
     for(int i = 0; i < numberOfCoaches; i++) {
+        int coachNumber = i;
 
         pid_t id = fork();
 
@@ -17,8 +26,20 @@ void CoachFactory::getCoaches(
         }
 
         if( id == 0 ){
-            cout << "I am coach no. " << i + 1 << endl;
-            cout << "Creating Sorters ..." << endl;
+
+            coaches[i] = (Coach*) malloc( sizeof(Coach) );
+            coaches[i] = new Coach(
+                recordsFilename,
+                pipeNames[i],
+                records,
+                numberOfRecords,
+                coachNumber,
+                bufferSize,
+                sorterTypes
+            );
+
+            coaches[i]->doAction();
+
             exit(0);
         }
 

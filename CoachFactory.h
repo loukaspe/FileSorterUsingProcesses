@@ -1,9 +1,8 @@
 /* This class will have a static function that will be called from the
  * coordinator and will create the coaches processes */
 
-#include <unistd.h>
 #include <iostream>
-#include <sys/wait.h>
+#include "Coach.h"
 
 using namespace std;
 
@@ -12,7 +11,15 @@ using namespace std;
 
 class CoachFactory {
 public:
-    static void getCoaches(int, char*, char**);
+    static void createCoachesAndDoAction(
+        int,
+        char*,
+        char**,
+        long,
+        MyRecord*,
+        int,
+        SorterType*
+    );
 private:
     static const char* FORK_ERROR;
 };
