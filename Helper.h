@@ -8,19 +8,17 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
-
+#include "Record.h"
 
 class Helper {
 public:
-    static char* copyString(char*);
     static void handleError(const char*);
-    static bool inArray(char*, char**, int);
-    static char* removeNewLineCharacterFromString(char*);
-    static void swapNumbers(int*, int*);
+    static bool inArray(int, int[], int);
+    static void swapRecords(MyRecord*, MyRecord*);
+    static char* getRecordColumnAsString(MyRecord*, int);
+    static MyRecord* createSubsetOfRecords(MyRecord*, int, int);
 private:
-    static const char* STRING_COPY_ERROR;
-    static const char* STRING_CONCAT_ERROR;
-    static bool hasStringNewLineCharacterInTheEnd(char*);
+    static char* NO_SUCH_RECORD_COLUMN_ERROR_MESSAGE;
 };
 
 #endif //LOUKASPETEINARIS_PRJ2_HELPER_H

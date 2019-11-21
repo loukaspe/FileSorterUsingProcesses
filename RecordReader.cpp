@@ -1,8 +1,8 @@
 #include "RecordReader.h"
 
-const char* RecordReader::NO_INPUT_FILE_ERROR = "ERROR: No Input File was found.\n";
-const char* RecordReader::READING_MODE = "rb";
-const char* RecordReader::ERROR_OPENING_FILE_MESSAGE = "Cannot open binary file\n";
+char* RecordReader::NO_INPUT_FILE_ERROR = "ERROR: No Input File was found.\n";
+char* RecordReader::READING_MODE = "rb";
+char* RecordReader::ERROR_OPENING_FILE_MESSAGE = "Cannot open binary file\n";
 
 RecordReader::RecordReader(char* filename) {
     this->filename = filename;
