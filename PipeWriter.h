@@ -7,9 +7,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <cstring>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "Helper.h"
 
 #ifndef LOUKASPETEINARIS_PRJ2_PIPEWRITER_H
 #define LOUKASPETEINARIS_PRJ2_PIPEWRITER_H
@@ -18,7 +20,7 @@
 class PipeWriter {
     public:
         PipeWriter(int, const char*, long);
-        char* write();
+        void write(char*);
     private:
         int fd;
         long bufferSize;
@@ -28,6 +30,7 @@ class PipeWriter {
         static const char* MKFIFO_ERROR;
         static const char* OPEN_PIPE_ERROR;
         static const char* WRITING_ERROR;
+        static const char* NOT_ENOUGH_BUFFER_SIZE_ERROR;
         void handlePipeError(const char*);
 };
 

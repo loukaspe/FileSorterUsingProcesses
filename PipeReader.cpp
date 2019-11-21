@@ -17,17 +17,17 @@ PipeReader::PipeReader(int fd, const char* filename, long bufferSize) {
     ) {
         handlePipeError(MKFIFO_ERROR);
     }
-}
-
-
-char* PipeReader::read() {
-    char *stringReadByPipe = NULL;
 
     if(
         ( this->fd = open(this->filename, OPEN_MODE) ) == -1
     ) {
         handlePipeError(OPEN_PIPE_ERROR);
     }
+}
+
+
+char* PipeReader::read() {
+    char *stringReadByPipe = NULL;
 
     if(
         ::read( this->fd, stringReadByPipe, this->bufferSize ) < 0
