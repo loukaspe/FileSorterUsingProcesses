@@ -6,20 +6,23 @@
 #ifndef LOUKASPETEINARIS_PRJ2_COORDINATOR_H
 #define LOUKASPETEINARIS_PRJ2_COORDINATOR_H
 
-#include "RecordReader.h"
-#include "PipeReader.h"
-#include "PipeWriter.h"
 #include "CoachFactory.h"
+#include <cstdio>
+#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 class Coordinator {
 public:
-    Coordinator(char*, MyRecord*, long, int);
+    Coordinator(char*, MyRecord*, int, long, int, SorterType*);
     void doAction();
 private:
-    char* filename;
+    char* recordsFilename;
     MyRecord* records;
+    int numberOfRecords;
     int numberOfCoaches;
     long bufferSize;
+    SorterType* sorterTypes;
     PipeReader** pipeReaders;
     PipeWriter** pipeWriters;
     static const char* pipeNames[];
