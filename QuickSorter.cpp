@@ -3,55 +3,76 @@
 
 #include "QuickSorter.h"
 
-void QuickSorter::quickSort(int numberToBeSorted[], int startIndex, int endIndex) {
+void QuickSorter::quickSort(
+    MyRecord* records,
+    int startIndex,
+    int endIndex,
+    int column
+) {
     if (startIndex < endIndex)
     {
         int partitioningIndex = partition(
-            numberToBeSorted,
-            startIndex,
-            endIndex
+                records,
+                startIndex,
+                endIndex,
+                column
         );
 
-        quickSort(numberToBeSorted, startIndex, partitioningIndex - 1);
-        quickSort(numberToBeSorted, partitioningIndex + 1, endIndex);
+        quickSort(records, startIndex, partitioningIndex - 1, column);
+        quickSort(records, partitioningIndex + 1, endIndex, column);
     }
 }
 
 /* This function takes last element as pivot, places the pivot element at its
  * correct position in sorted array, and places all smaller (smaller than pivot)
  * to left of pivot and all greater elements to right of pivot */
-int QuickSorter::partition (int arrayOfNumbers[], int lowValue, int highValue)
-{
-    int pivot = arrayOfNumbers[highValue];
+int QuickSorter::partition (
+    MyRecord* records,
+    int lowValue,
+    int highValue,
+    int column
+) {
+    char* pivot = Helper::getRecordColumnAsString(
+        &records[highValue],
+        column
+    );
+
     int lowIndex = lowValue - 1;
     int highIndex = highValue - 1;
 
     for (int j = lowValue; j <= highIndex; j++)
     {
         // If current element is smaller than the pivot
-        if (arrayOfNumbers[j] < pivot)
+        if (
+            strcmp(
+                Helper::getRecordColumnAsString( &records[j], column ),
+                pivot
+            ) < 0
+        )
         {
             // increment index of smaller element
             lowIndex++;
-            Helper::swapNumbers(
-                &arrayOfNumbers[lowIndex],
-                &arrayOfNumbers[j]
+            Helper::swapRecords(
+                &records[lowIndex],
+                &records[j]
             );
         }
     }
-    Helper::swapNumbers(
-        &arrayOfNumbers[lowIndex + 1],
-        &arrayOfNumbers[highValue]
+    Helper::swapRecords(
+        &records[lowIndex + 1],
+        &records[highValue]
     );
 
     return lowIndex + 1;
 }
 
 /* Function to print an array */
-void QuickSorter::printArray(int arr[], int size)
+void QuickSorter::printArray(MyRecord* records, int size, int column)
 {
     int i;
-    for (i = 0; i < size; i++)
-        cout << arr[i] << " ";
+    for (i = 0; i < size; i++) {
+        cout << Helper::getRecordColumnAsString( &records[i], column ) << " ";
+    }
+
     cout << endl;
 }

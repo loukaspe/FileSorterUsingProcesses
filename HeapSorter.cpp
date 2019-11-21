@@ -2,56 +2,75 @@
  * https://www.geeksforgeeks.org/heap-sort/ */
 
 #include "HeapSorter.h"
+#include "RecordReader.h"
 
-void HeapSorter::heapSort(int arrayOfNumbers[], int size) {
+void HeapSorter::heapSort(MyRecord* records, int size, int column) {
     // Build heap (rearrange array)
     for (int i = size / 2 - 1; i >= 0; i--) {
-        heapify(arrayOfNumbers, size, i);
+        heapify(records, size, i, column);
     }
 
     // One by one extract an element from heap
-    for (int i= size - 1; i >= 0; i--)
+    for (int i = size - 1; i >= 0; i--)
     {
         // Move current root to end
-        swap(arrayOfNumbers[0], arrayOfNumbers[i]);
+        swap(records[0], records[i]);
 
-        // call max heapify on the reduced heap
-        heapify(arrayOfNumbers, i, 0);
+        // callSorter max heapify on the reduced heap
+        heapify(records, i, 0, column);
     }
 }
 
 /* Function to print an array */
-void HeapSorter::printArray(int arr[], int size)
+void HeapSorter::printArray(MyRecord* records, int size, int column)
 {
     int i;
     for (i = 0; i < size; i++)
-        cout << arr[i] << " ";
+        cout << Helper::getRecordColumnAsString( &records[i], column ) << endl;
     cout << endl;
 }
 
 void HeapSorter::heapify(
-        int arrayOfNumbers[],
+        MyRecord* records,
         int sizeOfHeap,
-        int indexOfRootOfSubtreeToBeHeapified
+        int indexOfRootOfSubtreeToBeHeapified,
+        int column
 ) {
     int largestIndex = indexOfRootOfSubtreeToBeHeapified;
     int leftChild = 2 * indexOfRootOfSubtreeToBeHeapified + 1;
     int rightChild = 2 * indexOfRootOfSubtreeToBeHeapified + 2;
 
     // If leftChild child is larger than root
-    if (leftChild < sizeOfHeap && arrayOfNumbers[leftChild] > arrayOfNumbers[largestIndex])
+    if (
+        leftChild < sizeOfHeap
+        && strcmp(
+            Helper::getRecordColumnAsString( &records[leftChild], column),
+            Helper::getRecordColumnAsString( &records[largestIndex], column)
+        ) > 0
+    ) {
         largestIndex = leftChild;
+    }
 
     // If rightChild child is larger than largestIndex so far
-    if (rightChild < sizeOfHeap && arrayOfNumbers[rightChild] > arrayOfNumbers[largestIndex])
+    if (
+        rightChild < sizeOfHeap
+        && strcmp(
+                Helper::getRecordColumnAsString( &records[rightChild], column),
+                Helper::getRecordColumnAsString( &records[largestIndex], column)
+        ) > 0
+    ) {
         largestIndex = rightChild;
+    }
 
     // If largestIndex is not root
     if (largestIndex != indexOfRootOfSubtreeToBeHeapified)
     {
-        swap(arrayOfNumbers[indexOfRootOfSubtreeToBeHeapified], arrayOfNumbers[largestIndex]);
+        Helper::swapRecords(
+            &records[indexOfRootOfSubtreeToBeHeapified],
+            &records[largestIndex]
+        );
 
         // Recursively heapify the affected sub-tree
-        heapify(arrayOfNumbers, sizeOfHeap, largestIndex);
+        heapify(records, sizeOfHeap, largestIndex, column);
     }
 }
