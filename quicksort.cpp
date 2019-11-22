@@ -38,7 +38,9 @@ int main(int argc, char* argv[]) {
     int fd;
     int bufferSize = numberOfRecords * sizeof(MyRecord);
     PipeWriter* pipeWriterToCoach = new PipeWriter(fd, pipeName);
+    pipeWriterToCoach->writeNumber(bufferSize);
     pipeWriterToCoach->writeRecords(subsetOfRecords, bufferSize);
+    // close pipe
 
     return 0;
 };
