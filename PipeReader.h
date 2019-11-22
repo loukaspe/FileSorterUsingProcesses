@@ -10,14 +10,17 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "Helper.h"
 
 #ifndef LOUKASPETEINARIS_PRJ2_PIPEREADER_H
 #define LOUKASPETEINARIS_PRJ2_PIPEREADER_H
 
 class PipeReader {
     public:
-        PipeReader(int, const char*, long);
+        PipeReader(int, const char*);
         char* read();
+        int readNumber();
+        MyRecord* readRecords(long);
     private:
         int fd;
         const char* filename;

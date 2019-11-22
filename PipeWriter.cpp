@@ -8,9 +8,8 @@ const char* PipeWriter::WRITING_ERROR = "ERROR: write() failed to write to a nam
 const char* PipeWriter::NOT_ENOUGH_BUFFER_SIZE_ERROR = "ERROR: Given text's size bigger "
                                                        "pipe's buffer size";
 
-PipeWriter::PipeWriter(int fd, const char* filename, long bufferSize) {
+PipeWriter::PipeWriter(int fd, const char* filename) {
     this->fd = fd;
-    this->bufferSize = bufferSize;
     this->filename = filename;
 
     if(
@@ -27,14 +26,9 @@ PipeWriter::PipeWriter(int fd, const char* filename, long bufferSize) {
     }
 }
 
-
-void PipeWriter::write(char* text) {
-    if( strlen(text) > this->bufferSize ) {
-        Helper::handleError(PipeWriter::NOT_ENOUGH_BUFFER_SIZE_ERROR);
-    }
-
+void PipeWriter::writeRecords(MyRecord* records, long bufferSize) {
     if(
-        ::write( this->fd, text, this->bufferSize ) < 0
+        ::write( this->fd, records, bufferSize ) < 0
     ) {
         handlePipeError(WRITING_ERROR);
     }

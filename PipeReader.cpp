@@ -6,7 +6,7 @@ const char* PipeReader::MKFIFO_ERROR = "ERROR: mkfifo() failed to create a new n
 const char* PipeReader::OPEN_PIPE_ERROR = "ERROR: open() failed to open a named pipe";
 const char* PipeReader::READING_ERROR = "ERROR: read() failed to write to a named pipe";
 
-PipeReader::PipeReader(int fd, const char* filename, long bufferSize) {
+PipeReader::PipeReader(int fd, const char* filename) {
     this->fd = fd;
     this->bufferSize = bufferSize;
     this->filename = filename;
@@ -26,16 +26,29 @@ PipeReader::PipeReader(int fd, const char* filename, long bufferSize) {
 }
 
 
-char* PipeReader::read() {
-    char *stringReadByPipe = NULL;
+int PipeReader::readNumber() {
+    int* number;
+    bufferSize = sizeof(int);
 
     if(
-        ::read( this->fd, stringReadByPipe, this->bufferSize ) < 0
+        ::read( this->fd, number, bufferSize ) < 0
     ) {
         handlePipeError(READING_ERROR);
     }
 
-    return stringReadByPipe;
+    return *number;
+}
+
+MyRecord* PipeReader::readRecords(long bufferSize) {
+    MyRecord* records;
+
+    if(
+        ::read( this->fd, records, bufferSize ) < 0
+    ) {
+        handlePipeError(READING_ERROR);
+    }
+
+    return records;
 }
 
 void PipeReader::handlePipeError(const char* errorMessage) {

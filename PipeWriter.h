@@ -19,8 +19,8 @@
 
 class PipeWriter {
     public:
-        PipeWriter(int, const char*, long);
-        void write(char*);
+        PipeWriter(int, const char*);
+        void writeRecords(MyRecord*, long);
     private:
         int fd;
         long bufferSize;

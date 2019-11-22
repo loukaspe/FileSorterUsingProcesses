@@ -14,20 +14,17 @@
 
 class Coordinator {
 public:
-    Coordinator(char*, MyRecord*, int, long, int, SorterType*);
+    Coordinator(char*, int, long, int, SorterType*);
     void doAction();
 private:
     char* recordsFilename;
-    MyRecord* records;
     int numberOfRecords;
     int numberOfCoaches;
     long bufferSize;
     SorterType* sorterTypes;
     PipeReader** pipeReaders;
-    PipeWriter** pipeWriters;
     static const char* pipeNames[];
     void createPipeReaders();
-    void createPipeWriters();
 };
 
 

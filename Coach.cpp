@@ -26,7 +26,6 @@ char* Coach::pipeNamesForSorters[][8] = {
 Coach::Coach(
     char* recordsFilename,
     char* pipeNameFromCoordinator,
-    MyRecord* records,
     int numberOfRecords,
     int coachNumber,
     long bufferSize,
@@ -34,7 +33,6 @@ Coach::Coach(
 ) {
     this->recordFilename = recordsFilename;
     this->pipeNameFromCoordinator = pipeNameFromCoordinator,
-    this->records = records;
     this->numberOfRecords = numberOfRecords;
     this->coachNumber = coachNumber;
     this->bufferSize = bufferSize;
@@ -47,15 +45,13 @@ void Coach::doAction() {
     cout << "I am coach no. " << this->coachNumber + 1 << endl;
 
     /* Firstly we create our pipes for reading and writing */
-    createPipeReaders();
-    createPipeWriters();
+    createPipeReadersFromSorters();
+    createPipeWritersToCoordinator();
 
-    // create sorters
-
-    // read from coordinator
-    // write to sorters
-    // read from sorters
-    // write to coordinator
+    // read from sorters bufferSize
+    // read from sorters records
+    // write to coordinator buffersize
+    // write to coordinator records
 
     /* And then we run the Sorter Processes through the SorterCaller */
     SorterCaller** sorterCallers = (SorterCaller**) malloc(
@@ -70,8 +66,7 @@ void Coach::doAction() {
             type->columnNumber,
             recordFilename,
             coachNumber,
-            pipeNamesForSorters[coachNumber][i],
-            bufferSize
+            pipeNamesForSorters[coachNumber][i]
         );
 
         sorterCallers[i]->callSorter();
@@ -80,16 +75,6 @@ void Coach::doAction() {
 
 void Coach::getSortersToBeCreatedNumberFromCoachNumber() {
     this->numberOfSortersToBeCreated = pow(2, this->coachNumber);
-}
-
-void Coach::createPipeReaders() {
-    createPipeReaderFromCoordinator();
-    createPipeReadersFromSorters();
-}
-
-void Coach::createPipeWriters() {
-    createPipeWritersToCoordinator();
-    createPipeWritersToSorters();
 }
 
 void Coach::createPipeReadersFromSorters() {
@@ -105,35 +90,12 @@ void Coach::createPipeReadersFromSorters() {
     for(int i = 0; i < this->numberOfSortersToBeCreated; i++) {
         pipeReadersFromSorters[i] = new PipeReader(
             fd[i],
-            Coach::pipeNamesForSorters[this->coachNumber][i],
-            18
+            Coach::pipeNamesForSorters[this->coachNumber][i]
         );
     }
-}
-
-void Coach::createPipeWritersToSorters() {
-
-    int fd[this->numberOfSortersToBeCreated];
-
-    pipeWritersToSorters = (PipeWriter**) malloc(
-            this->numberOfSortersToBeCreated * sizeof(PipeWriter)
-    );
-
-    for(int i = 0; i < this->numberOfSortersToBeCreated; i++) {
-        pipeWritersToSorters[i] = new PipeWriter(
-            fd[i],
-            Coach::pipeNamesForSorters[this->coachNumber][i],
-            18
-        );
-    }
-}
-
-void Coach::createPipeReaderFromCoordinator() {
-    int fd;
-    pipeReaderFromCoordinator = new PipeReader(fd, pipeNameFromCoordinator, 18);
 }
 
 void Coach::createPipeWritersToCoordinator() {
     int fd;
-    pipeWriterToCoordinator = new PipeWriter(fd, pipeNameFromCoordinator, 18);
+    pipeWriterToCoordinator = new PipeWriter(fd, pipeNameFromCoordinator);
 }

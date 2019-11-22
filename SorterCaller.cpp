@@ -10,7 +10,6 @@ SorterCaller::SorterCaller(
     char* recordFilename,
     int coachNumber,
     char* pipeName,
-    int bufferSize
 ) {
     this->sorterNumber = sorterNumber;
     this->sorterType = sorterType;
@@ -19,7 +18,6 @@ SorterCaller::SorterCaller(
     this->recordFilename = recordFilename;
     this->coachNumber = coachNumber;
     this->pipeName = pipeName;
-    this->bufferSize = bufferSize;
 
     setStartAndEndIndexesOfGivenRecordsDependingOnCoachNumberAndSorterNumber();
 }
@@ -37,8 +35,6 @@ void SorterCaller::callSorter() {
     sprintf(endIndexAsString, "%d", endIndexOfGivenRecords);
     char columnAsString[64];
     sprintf(columnAsString, "%d", column);
-    char bufferSizeAsString[64];
-    sprintf(bufferSizeAsString, "%d", bufferSize);
 
     if ( id == -1 ) {
         perror(FORK_ERROR);
@@ -53,7 +49,6 @@ void SorterCaller::callSorter() {
             startIndexAsString,
             endIndexAsString,
             pipeName,
-            bufferSizeAsString,
             columnAsString,
             NULL
         );
@@ -68,7 +63,6 @@ void SorterCaller::callSorter() {
             startIndexAsString,
             endIndexAsString,
             pipeName,
-            bufferSizeAsString,
             columnAsString,
             NULL
         );
@@ -78,8 +72,9 @@ void SorterCaller::callSorter() {
     wait(NULL);
 }
 
-/* Function to set the limits of records that this sorter will sort. Due to lack
- * of time I did not figure out another way of setting them other than hard-coded */
+/* Function to set the limits of records that this sorter will sort, as shown in
+ * schema 1 of http://cgi.di.uoa.gr/~ad/k22/OS-F19-Prj2.pdf. Due to lack of time
+ * I did not figure out another way of setting them other than hard-coded */
 void SorterCaller::setStartAndEndIndexesOfGivenRecordsDependingOnCoachNumberAndSorterNumber() {
     if(coachNumber == 0 && sorterNumber == 0) {
         startIndexOfGivenRecords = 0;
@@ -171,62 +166,3 @@ void SorterCaller::setStartAndEndIndexesOfGivenRecordsDependingOnCoachNumberAndS
         return;
     }
 }
-
-/* Function that returns the portion of data-file used by the sorters (as shown
- * in http://cgi.di.uoa.gr/~ad/k22/OS-F19-Prj2.pdf )*/
-double SorterCaller::portionOfDataDependingOnCoachAndSorterNumber() {
-    if(this->coachNumber == 0) {
-        return 1.0;
-    }
-
-    if(this->coachNumber == 1) {
-        return 0.5;
-    }
-
-    if(
-        this->coachNumber == 2
-        &&  (
-            sorterNumber == 0
-            || sorterNumber == 1
-        )
-    ) {
-        return 0.125;
-    }
-
-    if(
-        this->coachNumber == 2
-        && sorterNumber == 2
-    ) {
-        return 0.25;
-    }
-
-    if(this->coachNumber == 2) {
-        return 0.5;
-    }
-
-    if(
-        this->coachNumber == 3
-        && (
-            sorterNumber == 0
-            || sorterNumber == 1
-            || sorterNumber == 2
-            || sorterNumber == 3
-        )
-    ) {
-        return 0.0625;
-    }
-
-    if(
-        this->coachNumber == 3
-        && (
-            sorterNumber == 4
-            || sorterNumber == 5
-        )
-    ) {
-        return 0.125;
-    }
-
-    if(this->coachNumber == 3) {
-        return 0.25;
-    }
-};

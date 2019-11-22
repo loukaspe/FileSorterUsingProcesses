@@ -21,7 +21,7 @@ using namespace std;
 
 class SorterCaller {
 public:
-    SorterCaller(int, int, int, int, char*, int, char*, int);
+    SorterCaller(int, int, int, int, char*, int, char*);
     void callSorter();
 private:
     int sorterNumber;
@@ -31,15 +31,10 @@ private:
     char* recordFilename;
     int coachNumber;
     char* pipeName;
-    int bufferSize;
     int startIndexOfGivenRecords;
     int endIndexOfGivenRecords;
     void setStartAndEndIndexesOfGivenRecordsDependingOnCoachNumberAndSorterNumber();
     static const char* FORK_ERROR;
-
-    double portion;
-    double portionOfDataDependingOnCoachAndSorterNumber();
 };
-
 
 #endif //LOUKASPETEINARIS_PRJ2_SORTERCALLER_H

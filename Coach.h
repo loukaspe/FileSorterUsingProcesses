@@ -16,11 +16,10 @@ using namespace std;
 
 class Coach {
 public:
-    Coach(char*, char*, MyRecord*, int, int, long, SorterType*);
+    Coach(char*, char*, int, int, long, SorterType*);
     void doAction();
 private:
     char* recordFilename;
-    MyRecord* records;
     int numberOfRecords;
     int coachNumber;
     long bufferSize;
@@ -33,11 +32,7 @@ private:
     PipeReader* pipeReaderFromCoordinator;
     PipeWriter* pipeWriterToCoordinator;
     static char* pipeNamesForSorters[][8];
-    void createPipeReaders();
-    void createPipeWriters();
     void createPipeReadersFromSorters();
-    void createPipeWritersToSorters();
-    void createPipeReaderFromCoordinator();
     void createPipeWritersToCoordinator();
 };
 
