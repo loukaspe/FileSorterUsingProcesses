@@ -9,7 +9,7 @@ SorterCaller::SorterCaller(
     int column,
     char* recordFilename,
     int coachNumber,
-    char* pipeName,
+    char* pipeName
 ) {
     this->sorterNumber = sorterNumber;
     this->sorterType = sorterType;
