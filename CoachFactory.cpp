@@ -7,7 +7,6 @@ void CoachFactory::createCoachesAndDoAction(
         char* recordsFilename,
         char** pipeNames,
         long bufferSize,
-        MyRecord* records,
         int numberOfRecords,
         SorterType* sorterTypes
 ) {
@@ -31,7 +30,6 @@ void CoachFactory::createCoachesAndDoAction(
             coaches[i] = new Coach(
                 recordsFilename,
                 pipeNames[i],
-                records,
                 numberOfRecords,
                 coachNumber,
                 bufferSize,

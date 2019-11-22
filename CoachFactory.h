@@ -16,13 +16,11 @@ public:
         char*,
         char**,
         long,
-        MyRecord*,
         int,
         SorterType*
     );
 private:
     static const char* FORK_ERROR;
 };
-
 
 #endif //LOUKASPETEINARIS_PRJ2_COACHFACTORY_H

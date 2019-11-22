@@ -82,3 +82,60 @@ MyRecord* Helper::createSubsetOfRecords(
     return subsetOfRecords;
 }
 
+/* Function used in coordinator.cpp to handle a given argument from command line.
+ * Implemented in Helper.h in order to simplify and keep clean coordinator.cpp */
+void Helper::handleGivenHeapCoachFromCommandLine(
+        int* numberOfCoaches,
+        int* numberOfCoachesGivenInCommandLine,
+        int columnArgument,
+        int previousColumnArguments[],
+        SorterTypeFactory* sorterTypeFactory,
+        int maxNumberOfCoaches
+) {
+    if(
+            *numberOfCoachesGivenInCommandLine >= maxNumberOfCoaches
+            || Helper::inArray(
+                columnArgument,
+                previousColumnArguments,
+                maxNumberOfCoaches
+            )
+    ) {
+        return;
+    }
+
+    sorterTypeFactory->add(HEAP, columnArgument);
+
+    previousColumnArguments[
+            *numberOfCoachesGivenInCommandLine
+    ] = columnArgument;
+
+    (*numberOfCoaches)++;
+}
+
+void Helper::handleGivenQuickCoachFromCommandLine(
+        int* numberOfCoaches,
+        int* numberOfCoachesGivenInCommandLine,
+        int columnArgument,
+        int previousColumnArguments[],
+        SorterTypeFactory* sorterTypeFactory,
+        int maxNumberOfCoaches
+) {
+    if(
+            *numberOfCoachesGivenInCommandLine >= maxNumberOfCoaches
+            || Helper::inArray(
+                columnArgument,
+                previousColumnArguments,
+                maxNumberOfCoaches
+            )
+    ) {
+        return;
+    }
+
+    sorterTypeFactory->add(QUICK, columnArgument);
+
+    previousColumnArguments[
+            *numberOfCoachesGivenInCommandLine
+    ] = columnArgument;
+
+    (*numberOfCoaches)++;
+}

@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cmath>
 #include "Record.h"
+#include "SorterTypeFactory.h"
 
 class Helper {
 public:
@@ -17,6 +18,12 @@ public:
     static void swapRecords(MyRecord*, MyRecord*);
     static char* getRecordColumnAsString(MyRecord*, int);
     static MyRecord* createSubsetOfRecords(MyRecord*, int, int);
+    static void handleGivenHeapCoachFromCommandLine(
+        int*, int*, int, int[], SorterTypeFactory*, int
+    );
+    static void handleGivenQuickCoachFromCommandLine(
+            int*, int*, int, int[], SorterTypeFactory*, int
+    );
 private:
     static char* NO_SUCH_RECORD_COLUMN_ERROR_MESSAGE;
 };

@@ -6,20 +6,14 @@ const char* WRONG_PROGRAM_USAGE_ERROR = "ERROR: Wrong Program Call. Please give"
 const int MAX_NUMBER_OF_COACHES = 4;
 const long BUFFER_SIZE = 1024;
 
-void handleGivenQuickCoachFromCommandLine(
-    int*, int*, int, int[], SorterTypeFactory*
-);
-
-void handleGivenHeapCoachFromCommandLine(
-        int*, int*, int, int[], SorterTypeFactory*
-);
-
 int main(int argc, char** argv) {
 
     char* filename = argv[1];
+
     RecordReader* recordReader = new RecordReader(filename);
     MyRecord* records = recordReader->fetchAllRecords();
     int numberOfRecords = recordReader->getRecordsNumber();
+
     int numberOfCoaches = 0;
 
     /* Variables for the Program's Arguments */
@@ -50,22 +44,24 @@ int main(int argc, char** argv) {
         switch (opt) {
             case 'h':
                 columnArgument = atoi(optarg);
-                handleGivenHeapCoachFromCommandLine(
+                Helper::handleGivenHeapCoachFromCommandLine(
                     &numberOfCoaches,
                     &numberOfCoachesGivenInCommandLine,
                     columnArgument,
                     previousColumnArguments,
-                    sorterTypeFactory
+                    sorterTypeFactory,
+                    MAX_NUMBER_OF_COACHES
                 );
                 break;
             case 'q':
                 columnArgument = atoi(optarg);
-                handleGivenQuickCoachFromCommandLine(
+                Helper::handleGivenQuickCoachFromCommandLine(
                     &numberOfCoaches,
                     &numberOfCoachesGivenInCommandLine,
                     columnArgument,
                     previousColumnArguments,
-                    sorterTypeFactory
+                    sorterTypeFactory,
+                    MAX_NUMBER_OF_COACHES
                 );
                 break;
             default:
@@ -77,7 +73,6 @@ int main(int argc, char** argv) {
 
     Coordinator* coordinator = new Coordinator(
         filename,
-        records,
         numberOfRecords,
         BUFFER_SIZE,
         numberOfCoaches,
@@ -86,58 +81,4 @@ int main(int argc, char** argv) {
     coordinator->doAction();
 
     return 0;
-}
-
-void handleGivenHeapCoachFromCommandLine(
-    int* numberOfCoaches,
-    int* numberOfCoachesGivenInCommandLine,
-    int columnArgument,
-    int previousColumnArguments[],
-    SorterTypeFactory* sorterTypeFactory
-) {
-    if(
-        *numberOfCoachesGivenInCommandLine >= MAX_NUMBER_OF_COACHES
-        || Helper::inArray(
-                columnArgument,
-                previousColumnArguments,
-                MAX_NUMBER_OF_COACHES
-        )
-    ) {
-        return;
-    }
-
-    sorterTypeFactory->add(HEAP, columnArgument);
-
-    previousColumnArguments[
-        *numberOfCoachesGivenInCommandLine
-    ] = columnArgument;
-
-    (*numberOfCoaches)++;
-}
-
-void handleGivenQuickCoachFromCommandLine(
-        int* numberOfCoaches,
-        int* numberOfCoachesGivenInCommandLine,
-        int columnArgument,
-        int previousColumnArguments[],
-        SorterTypeFactory* sorterTypeFactory
-) {
-    if(
-        *numberOfCoachesGivenInCommandLine >= MAX_NUMBER_OF_COACHES
-        || Helper::inArray(
-                columnArgument,
-                previousColumnArguments,
-                MAX_NUMBER_OF_COACHES
-        )
-    ) {
-        return;
-    }
-
-    sorterTypeFactory->add(QUICK, columnArgument);
-
-    previousColumnArguments[
-            *numberOfCoachesGivenInCommandLine
-    ] = columnArgument;
-
-    (*numberOfCoaches)++;
 }
