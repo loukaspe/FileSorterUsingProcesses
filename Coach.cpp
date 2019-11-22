@@ -23,6 +23,17 @@ char* Coach::pipeNamesForSorters[][8] = {
         }
 };
 
+const int Coach::NUMBER_OF_CHARS_IN_OUTPUT_FILENAME = 25;
+
+const char* Coach::OUTPUT_FILENAME = "fileOfSortedRecordsCoach%dColumn%d";
+const char* Coach::OUTPUT_FILE_STARTING_TEXT = "Coach %d From Sorter %d on "
+                                               "column %d\n";
+
+const char* Coach::FOPEN_WRITING_MODE = "w";
+
+const char* Coach::ERROR_OPENING_FILE = "ERROR: Coach could not open file for "
+                                        "writing sorted Records.";
+
 Coach::Coach(
     char* recordsFilename,
     char* pipeNameFromCoordinator,
@@ -42,6 +53,21 @@ Coach::Coach(
 }
 
 void Coach::doAction() {
+    FILE* fileOfSortedRecords;
+    int columnNumber = type->columnNumber;
+
+    /* We create a string with size of the word 'fileOfSortedRecordsCoach' (24 chars)
+     * plus a number (1 char), that shows the number of Coach */
+    char* filename = (char*) malloc (
+        NUMBER_OF_CHARS_IN_OUTPUT_FILENAME * sizeof(char)
+    );
+    sprintf(filename, OUTPUT_FILENAME, coachNumber, columnNumber);
+
+    fileOfSortedRecords = fopen(filename, FOPEN_WRITING_MODE);
+    if( fileOfSortedRecords == NULL ) {
+        Helper::handleError(ERROR_OPENING_FILE);
+    }
+
     cout << "I am coach no. " << this->coachNumber + 1 << endl;
 
     /* Firstly we create our pipes for reading and writing */
@@ -50,6 +76,7 @@ void Coach::doAction() {
 
     // read from sorters bufferSize
     // read from sorters records
+    // make total file
     // write to coordinator buffersize
     // write to coordinator records
 
@@ -70,7 +97,47 @@ void Coach::doAction() {
         );
 
         sorterCallers[i]->callSorter();
+
+        int retrievedRecordsBufferSize = pipeReadersFromSorters[i]->readNumber();
+        int retrievedRecordsNumber = retrievedRecordsBufferSize / sizeof(MyRecord);
+        MyRecord* retrievedRecords = (MyRecord*) malloc (
+            retrievedRecordsBufferSize * sizeof(MyRecord)
+        );
+        retrievedRecords = pipeReadersFromSorters[i]->readRecords(
+            retrievedRecordsBufferSize
+        );
+
+        /* According to https://piazza.com/class/k1631q2t5o11rj?cid=47 the Coach
+         * merges the Records the Sorters bring, in any way we want, with no need
+         * to be sorted again */
+
+        int sorterNumber = i;
+        fprintf(
+            fileOfSortedRecords,
+            OUTPUT_FILE_STARTING_TEXT,
+            coachNumber,
+            sorterNumber,
+            columnNumber
+        );
+
+        for(int j = 0; j < retrievedRecordsNumber; j++) {
+            fprintf(
+                fileOfSortedRecords,
+                "%ld %s %s %s %d %s %s %-9.2f\n",
+                retrievedRecords[j].custid,
+                retrievedRecords[j].FirstName,
+                retrievedRecords[j].LastName,
+                retrievedRecords[j].Street,
+                retrievedRecords[j].HouseID,
+                retrievedRecords[j].City,
+                retrievedRecords[j].postcode,
+                retrievedRecords[j].amount
+            );
+        }
     }
+
+    fclose(fileOfSortedRecords);
+    // free records
 }
 
 void Coach::getSortersToBeCreatedNumberFromCoachNumber() {

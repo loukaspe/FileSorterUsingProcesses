@@ -28,12 +28,15 @@ private:
     int numberOfSortersToBeCreated;
     void getSortersToBeCreatedNumberFromCoachNumber();
     PipeReader** pipeReadersFromSorters;
-    PipeWriter** pipeWritersToSorters;
-    PipeReader* pipeReaderFromCoordinator;
     PipeWriter* pipeWriterToCoordinator;
     static char* pipeNamesForSorters[][8];
     void createPipeReadersFromSorters();
     void createPipeWritersToCoordinator();
+    static const int NUMBER_OF_CHARS_IN_OUTPUT_FILENAME;
+    static const char* OUTPUT_FILENAME;
+    static const char* OUTPUT_FILE_STARTING_TEXT;
+    static const char* FOPEN_WRITING_MODE;
+    static const char* ERROR_OPENING_FILE;
 };
 
 #endif //LOUKASPETEINARIS_PRJ2_COACH_H
