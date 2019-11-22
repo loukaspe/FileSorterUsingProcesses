@@ -18,13 +18,11 @@
 class PipeReader {
     public:
         PipeReader(int, const char*);
-        char* read();
         int readNumber();
         MyRecord* readRecords(long);
     private:
         int fd;
         const char* filename;
-        long bufferSize;
         static const int FIFO_MODE;
         static const int OPEN_MODE;
         static const char* MKFIFO_ERROR;

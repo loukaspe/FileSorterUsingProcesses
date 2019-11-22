@@ -20,10 +20,10 @@
 class PipeWriter {
     public:
         PipeWriter(int, const char*);
+        void writeNumber(int);
         void writeRecords(MyRecord*, long);
     private:
         int fd;
-        long bufferSize;
         const char* filename;
         static const int FIFO_MODE;
         static const int OPEN_MODE;

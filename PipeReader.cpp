@@ -4,11 +4,10 @@ const int PipeReader::FIFO_MODE = 0666;
 const int PipeReader::OPEN_MODE = O_RDONLY | O_NONBLOCK;
 const char* PipeReader::MKFIFO_ERROR = "ERROR: mkfifo() failed to create a new named pipe";
 const char* PipeReader::OPEN_PIPE_ERROR = "ERROR: open() failed to open a named pipe";
-const char* PipeReader::READING_ERROR = "ERROR: read() failed to write to a named pipe";
+const char* PipeReader::READING_ERROR = "ERROR: read() failed to read from a named pipe";
 
 PipeReader::PipeReader(int fd, const char* filename) {
     this->fd = fd;
-    this->bufferSize = bufferSize;
     this->filename = filename;
 
     if(
@@ -27,8 +26,8 @@ PipeReader::PipeReader(int fd, const char* filename) {
 
 
 int PipeReader::readNumber() {
-    int* number;
-    bufferSize = sizeof(int);
+    int* number = (int*) malloc( sizeof(int) );
+    int bufferSize = sizeof(int);
 
     if(
         ::read( this->fd, number, bufferSize ) < 0
@@ -40,7 +39,7 @@ int PipeReader::readNumber() {
 }
 
 MyRecord* PipeReader::readRecords(long bufferSize) {
-    MyRecord* records;
+    MyRecord* records = (MyRecord*) malloc ( bufferSize );
 
     if(
         ::read( this->fd, records, bufferSize ) < 0

@@ -26,6 +26,17 @@ PipeWriter::PipeWriter(int fd, const char* filename) {
     }
 }
 
+void PipeWriter::writeNumber(int number) {
+    int bufferSize = sizeof(int);
+
+    if(
+        ::write( this->fd, &number, bufferSize ) < 0
+    ) {
+        handlePipeError(WRITING_ERROR);
+    }
+
+}
+
 void PipeWriter::writeRecords(MyRecord* records, long bufferSize) {
     if(
         ::write( this->fd, records, bufferSize ) < 0
