@@ -48,9 +48,9 @@ int main(int argc, char* argv[]) {
     pipeWriterToCoach->writeRecords(subsetOfRecords, bufferSize);
 
     deletePointers(
-        recordReader,
         totalRecords,
         subsetOfRecords,
+        recordReader,
         pipeWriterToCoach
     );
 
