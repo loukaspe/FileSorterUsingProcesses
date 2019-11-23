@@ -1,5 +1,4 @@
 #include "SorterTypeFactory.h"
-#include "Helper.h"
 
 char* SorterTypeFactory::MALLOC_FAIL_ERROR_MESSAGE = "ERROR: malloc() failed to "
                                                 "allocate memory";

@@ -5,6 +5,7 @@
 #define LOUKASPETEINARIS_PRJ2_SORTERTYPEFACTORY_H
 
 #include <cstdlib>
+#include "Helper.h"
 
 /* I have as flag for a Quick or Heap Sorter an int with value of 0 or 1 */
 #define HEAP 0
