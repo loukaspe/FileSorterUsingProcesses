@@ -38,6 +38,19 @@ int PipeReader::readNumber() {
     return *number;
 }
 
+double PipeReader::readDoubleNumber() {
+    double* number = (double*) malloc( sizeof(double) );
+    int bufferSize = sizeof(double);
+
+    if(
+        ::read( this->fd, number, bufferSize ) < 0
+    ) {
+        handlePipeError(READING_ERROR);
+    }
+
+    return *number;
+}
+
 MyRecord* PipeReader::readRecords(long bufferSize) {
     MyRecord* records = (MyRecord*) malloc ( bufferSize );
 
@@ -48,6 +61,18 @@ MyRecord* PipeReader::readRecords(long bufferSize) {
     }
 
     return records;
+}
+
+double* PipeReader::readArrayOfDoubleNumbers(long bufferSize) {
+    double* numbers = (double*) malloc ( bufferSize );
+
+    if(
+        ::read( this->fd, numbers, bufferSize ) < 0
+    ) {
+        handlePipeError(READING_ERROR);
+    }
+
+    return numbers;
 }
 
 void PipeReader::handlePipeError(const char* errorMessage) {

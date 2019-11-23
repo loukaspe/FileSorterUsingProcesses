@@ -21,6 +21,9 @@ public:
     static void handleGivenHeapCoachFromCommandLine(
         int*, int, int[], SorterTypeFactory*, int
     );
+    static double findMaxInArrayOfDouble(double*, int);
+    static double findMinInArrayOfDouble(double*, int);
+    static double findAverageOfArrayOfDouble(double*, int);
     static void handleGivenQuickCoachFromCommandLine(
         int*, int, int[], SorterTypeFactory*, int
     );

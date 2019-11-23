@@ -37,9 +37,30 @@ void PipeWriter::writeNumber(int number) {
 
 }
 
+void PipeWriter::writeDoubleNumber(double number) {
+    int bufferSize = sizeof(double);
+
+    if(
+        ::write( this->fd, &number, bufferSize ) < 0
+    ) {
+        handlePipeError(WRITING_ERROR);
+    }
+
+}
+
 void PipeWriter::writeRecords(MyRecord* records, long bufferSize) {
     if(
         ::write( this->fd, records, bufferSize ) < 0
+    ) {
+        handlePipeError(WRITING_ERROR);
+    }
+
+//    close to pipe
+}
+
+void PipeWriter::writeArrayOfDoubleNumbers (double* numbers, long bufferSize) {
+    if(
+        ::write( this->fd, numbers, bufferSize ) < 0
     ) {
         handlePipeError(WRITING_ERROR);
     }

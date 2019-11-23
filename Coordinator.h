@@ -24,6 +24,7 @@ private:
     PipeReader** pipeReaders;
     static const char* pipeNames[];
     void createPipeReaders();
+    void readFromPipesAndPrintStatistics();
 };
 
 

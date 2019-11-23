@@ -54,6 +54,12 @@ void Coach::doAction() {
     FILE* fileOfSortedRecords;
     int columnNumber = type->columnNumber;
 
+    clock_t startTimeOfSorter;
+    clock_t endTimeOfSorter;
+    double* executionTimeOfSorters = (double*) malloc (
+        numberOfSortersToBeCreated * sizeof(double)
+    );
+
     /* We create a string with size of the word 'fileOfSortedRecordsCoach%dColumn%d'
      * (24 chars) plus two numbers (2 char), that show the number of Coach and
      * the number of column */
@@ -74,12 +80,6 @@ void Coach::doAction() {
     createPipeReadersFromSorters();
     createPipeWritersToCoordinator();
 
-    // read from sorters bufferSize
-    // read from sorters records
-    // make total file
-    // write to coordinator buffersize
-    // write to coordinator records
-
     /* And then we run the Sorter Processes through the SorterCaller */
     SorterCaller** sorterCallers = (SorterCaller**) malloc(
         numberOfSortersToBeCreated * sizeof( SorterCaller* )
@@ -96,7 +96,15 @@ void Coach::doAction() {
             pipeNamesForSorters[coachNumber][i]
         );
 
+        startTimeOfSorter = clock();
         sorterCallers[i]->callSorter();
+        endTimeOfSorter = clock();
+
+        executionTimeOfSorters[i] = (double) (
+            endTimeOfSorter - startTimeOfSorter
+        ) / CLOCKS_PER_SEC;
+
+        cout << "Sorter no. " << i << " run for " << executionTimeOfSorters[i] << endl;
 
         int retrievedRecordsBufferSize = pipeReadersFromSorters[i]->readNumber();
         int retrievedRecordsNumber = (
@@ -138,6 +146,11 @@ void Coach::doAction() {
     }
 
     fclose(fileOfSortedRecords);
+
+    for(int i = 0; i < numberOfSortersToBeCreated; i++) {
+        pipeWriterToCoordinator->writeDoubleNumber(executionTimeOfSorters[i]);
+    }
+
     // free records
 
 }

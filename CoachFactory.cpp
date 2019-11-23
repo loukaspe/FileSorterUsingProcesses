@@ -13,6 +13,16 @@ void CoachFactory::createCoachesAndDoAction(
         numberOfCoaches * sizeof( Coach* )
     );
 
+    int fd[numberOfCoaches];
+    PipeWriter** pipeWriters = (PipeWriter**) malloc(
+        numberOfCoaches * sizeof(PipeWriter*)
+    );
+
+    double executionTimeOfCoach;
+
+    clock_t startTimeOfCoach;
+    clock_t endTimeOfCoach;
+
     for(int i = 0; i < numberOfCoaches; i++) {
         int coachNumber = i;
 
@@ -34,7 +44,19 @@ void CoachFactory::createCoachesAndDoAction(
                 &sorterTypes[i]
             );
 
+            startTimeOfCoach = clock();
             coaches[i]->doAction();
+            endTimeOfCoach = clock();
+
+            executionTimeOfCoach = (double) (
+                endTimeOfCoach - startTimeOfCoach
+            ) / CLOCKS_PER_SEC;
+            cout << "Coach no. " << i << " run for " << executionTimeOfCoach << endl;
+            pipeWriters[i] = new PipeWriter(
+                fd[i],
+                pipeNames[i]
+            );
+            pipeWriters[i]->writeDoubleNumber(executionTimeOfCoach);
 
             exit(0);
         }

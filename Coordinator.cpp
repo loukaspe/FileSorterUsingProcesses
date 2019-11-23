@@ -34,6 +34,8 @@ void Coordinator::doAction() {
         this->numberOfRecords,
         this->sorterTypes
     );
+
+    readFromPipesAndPrintStatistics();
 }
 
 void Coordinator::createPipeReaders() {
@@ -52,5 +54,66 @@ void Coordinator::createPipeReaders() {
             Coordinator::pipeNames[i]
         );
     }
+}
+
+void Coordinator::readFromPipesAndPrintStatistics() {
+
+    double* executionTimeOfCoaches = (double*) malloc (
+            numberOfCoaches * sizeof(double)
+    );
+
+    double** executionTimeOfSortersOfCoaches = (double**) malloc(
+            numberOfCoaches * sizeof(double*)
+    );
+
+    for(int i = 0; i < numberOfCoaches; i++) {
+
+        int sortersToBeCreated = pow(2, i);
+
+        executionTimeOfSortersOfCoaches[i] = (double*) malloc(
+            sortersToBeCreated * sizeof(double)
+        );
+
+        for(int j = 0; j < pow(2, i); j++) {
+            executionTimeOfSortersOfCoaches[i][j] = pipeReaders[i]->readDoubleNumber();
+        }
+
+        double maxExecutionTimeOfSortersOfCoaches = Helper::findMaxInArrayOfDouble(
+            executionTimeOfSortersOfCoaches[i],
+            sortersToBeCreated
+        );
+        double minExecutionTimeOfSortersOfCoaches = Helper::findMinInArrayOfDouble(
+            executionTimeOfSortersOfCoaches[i],
+            sortersToBeCreated
+        );
+        double averageExecutionTimeOfSortersOfCoaches = Helper::findAverageOfArrayOfDouble(
+            executionTimeOfSortersOfCoaches[i],
+            sortersToBeCreated
+        );
+        cout << "Execution of Sorters of Coach no. " << i << endl;
+        cout << "\tMAX: " << maxExecutionTimeOfSortersOfCoaches << endl;
+        cout << "\tMIN: " << minExecutionTimeOfSortersOfCoaches << endl;
+        cout << "\tAVERAGE: " << averageExecutionTimeOfSortersOfCoaches << endl;
+
+        executionTimeOfCoaches[i] = pipeReaders[i]->readDoubleNumber();
+    }
+
+    double maxExecutionTimeOfCoaches = Helper::findMaxInArrayOfDouble(
+        executionTimeOfCoaches,
+        numberOfCoaches
+    );
+    double minExecutionTimeOfCoaches = Helper::findMinInArrayOfDouble(
+        executionTimeOfCoaches,
+        numberOfCoaches
+    );
+    double averageExecutionTimeOfCoaches = Helper::findAverageOfArrayOfDouble(
+        executionTimeOfCoaches,
+        numberOfCoaches
+    );
+
+    cout << "Execution Of Coaches:" << endl;
+    cout << "\tMAX: " << maxExecutionTimeOfCoaches << endl;
+    cout << "\tMIN: " << minExecutionTimeOfCoaches << endl;
+    cout << "\tAverage: " << averageExecutionTimeOfCoaches << endl;
 }
 

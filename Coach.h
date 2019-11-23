@@ -2,6 +2,10 @@
  * the pipes for Coordinator, the pipes for the Sorters and the Sorters themselves
  * through the SorterFactory class. */
 
+/* Sources for counting time of execution:
+ * https://www.geeksforgeeks.org/how-to-measure-time-taken-by-a-program-in-c/
+ * https://stackoverflow.com/questions/5248915/execution-time-of-c-program */
+
 #ifndef LOUKASPETEINARIS_PRJ2_COACH_H
 #define LOUKASPETEINARIS_PRJ2_COACH_H
 

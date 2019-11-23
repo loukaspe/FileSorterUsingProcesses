@@ -137,3 +137,37 @@ void Helper::handleGivenQuickCoachFromCommandLine(
 
     (*numberOfCoachesGivenInCommandLine)++;
 }
+
+double Helper::findMaxInArrayOfDouble(double* numbers, int size) {
+    double max = numbers[0];
+
+    for(int i = 0; i < size; i++) {
+        if(numbers[i] > max) {
+            max = numbers[i];
+        }
+    }
+
+    return max;
+}
+
+double Helper::findMinInArrayOfDouble(double* numbers, int size) {
+    double min = numbers[0];
+
+    for(int i = 0; i < size; i++) {
+        if(numbers[i] < min) {
+            min = numbers[i];
+        }
+    }
+
+    return min;
+}
+
+double Helper::findAverageOfArrayOfDouble(double* numbers, int size) {
+    double sum = 0.0;
+
+    for(int i = 0; i < size; i++) {
+        sum += numbers[i];
+    }
+
+    return (double) sum/ (double) size;
+}
