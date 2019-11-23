@@ -58,16 +58,6 @@ void PipeWriter::writeRecords(MyRecord* records, long bufferSize) {
 //    close to pipe
 }
 
-void PipeWriter::writeArrayOfDoubleNumbers (double* numbers, long bufferSize) {
-    if(
-        ::write( this->fd, numbers, bufferSize ) < 0
-    ) {
-        handlePipeError(WRITING_ERROR);
-    }
-
-//    close to pipe
-}
-
 void PipeWriter::handlePipeError(const char* errorMessage) {
     perror(errorMessage);
     exit(1);

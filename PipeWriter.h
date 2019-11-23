@@ -22,7 +22,6 @@ class PipeWriter {
         PipeWriter(int, const char*);
         void writeNumber(int);
         void writeDoubleNumber(double);
-        void writeArrayOfDoubleNumbers(double*, long);
         void writeRecords(MyRecord*, long);
     private:
         int fd;

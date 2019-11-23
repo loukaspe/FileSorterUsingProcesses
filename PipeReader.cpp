@@ -63,18 +63,6 @@ MyRecord* PipeReader::readRecords(long bufferSize) {
     return records;
 }
 
-double* PipeReader::readArrayOfDoubleNumbers(long bufferSize) {
-    double* numbers = (double*) malloc ( bufferSize );
-
-    if(
-        ::read( this->fd, numbers, bufferSize ) < 0
-    ) {
-        handlePipeError(READING_ERROR);
-    }
-
-    return numbers;
-}
-
 void PipeReader::handlePipeError(const char* errorMessage) {
     perror(errorMessage);
     exit(1);

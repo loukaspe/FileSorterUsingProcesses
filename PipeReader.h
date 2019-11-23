@@ -20,7 +20,6 @@ class PipeReader {
         PipeReader(int, const char*);
         int readNumber();
         double readDoubleNumber();
-        double* readArrayOfDoubleNumbers(long);
         MyRecord* readRecords(long);
     private:
         int fd;
