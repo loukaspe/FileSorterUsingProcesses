@@ -51,7 +51,7 @@ void CoachFactory::createCoachesAndDoAction(
             executionTimeOfCoach = (double) (
                 endTimeOfCoach - startTimeOfCoach
             ) / CLOCKS_PER_SEC;
-            cout << "Coach no. " << i << " run for " << executionTimeOfCoach << endl;
+
             pipeWriters[i] = new PipeWriter(
                 fd[i],
                 pipeNames[i]

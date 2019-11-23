@@ -74,8 +74,6 @@ void Coach::doAction() {
         Helper::handleError(ERROR_OPENING_FILE);
     }
 
-    cout << "I am coach no. " << this->coachNumber + 1 << endl;
-
     /* Firstly we create our pipes for reading and writing */
     createPipeReadersFromSorters();
     createPipeWritersToCoordinator();
@@ -103,8 +101,6 @@ void Coach::doAction() {
         executionTimeOfSorters[i] = (double) (
             endTimeOfSorter - startTimeOfSorter
         ) / CLOCKS_PER_SEC;
-
-        cout << "Sorter no. " << i << " run for " << executionTimeOfSorters[i] << endl;
 
         int retrievedRecordsBufferSize = pipeReadersFromSorters[i]->readNumber();
         int retrievedRecordsNumber = (

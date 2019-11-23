@@ -23,7 +23,6 @@ SorterCaller::SorterCaller(
 }
 
 void SorterCaller::callSorter() {
-    cout << "Sorter no. " << sorterNumber << " of Coach no. " << coachNumber << endl;
 
     pid_t id = fork();
 

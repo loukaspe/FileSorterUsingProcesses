@@ -21,8 +21,6 @@ Coordinator::Coordinator(
 
 void Coordinator::doAction() {
 
-    cout << "I am the coordinator " << endl;
-
     /* Firstly we create our pipes for reading from Coaches */
     createPipeReaders();
 
