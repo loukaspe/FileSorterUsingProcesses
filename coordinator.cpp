@@ -14,8 +14,6 @@ int main(int argc, char** argv) {
     MyRecord* records = recordReader->fetchAllRecords();
     int numberOfRecords = recordReader->getRecordsNumber();
 
-    int numberOfCoaches = 0;
-
     /* Variables for the Program's Arguments */
     int opt;
     int columnArgument;
@@ -54,7 +52,6 @@ int main(int argc, char** argv) {
                 // number 1 and in our implementation it starts from 0
                 columnArgument = atoi(optarg) - 1;
                 Helper::handleGivenHeapCoachFromCommandLine(
-                    &numberOfCoaches,
                     &numberOfCoachesGivenInCommandLine,
                     columnArgument,
                     previousColumnArguments,
@@ -65,7 +62,6 @@ int main(int argc, char** argv) {
             case 'q':
                 columnArgument = atoi(optarg) - 1;
                 Helper::handleGivenQuickCoachFromCommandLine(
-                    &numberOfCoaches,
                     &numberOfCoachesGivenInCommandLine,
                     columnArgument,
                     previousColumnArguments,
@@ -83,7 +79,7 @@ int main(int argc, char** argv) {
     Coordinator* coordinator = new Coordinator(
         filename,
         numberOfRecords,
-        numberOfCoaches,
+        numberOfCoachesGivenInCommandLine,
         sorterTypes
     );
     coordinator->doAction();

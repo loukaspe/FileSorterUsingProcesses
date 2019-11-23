@@ -85,7 +85,6 @@ MyRecord* Helper::createSubsetOfRecords(
 /* Function used in coordinator.cpp to handle a given argument from command line.
  * Implemented in Helper.h in order to simplify and keep clean coordinator.cpp */
 void Helper::handleGivenHeapCoachFromCommandLine(
-        int* numberOfCoaches,
         int* numberOfCoachesGivenInCommandLine,
         int columnArgument,
         int previousColumnArguments[],
@@ -109,11 +108,10 @@ void Helper::handleGivenHeapCoachFromCommandLine(
             *numberOfCoachesGivenInCommandLine
     ] = columnArgument;
 
-    (*numberOfCoaches)++;
+    (*numberOfCoachesGivenInCommandLine)++;
 }
 
 void Helper::handleGivenQuickCoachFromCommandLine(
-        int* numberOfCoaches,
         int* numberOfCoachesGivenInCommandLine,
         int columnArgument,
         int previousColumnArguments[],
@@ -137,5 +135,5 @@ void Helper::handleGivenQuickCoachFromCommandLine(
             *numberOfCoachesGivenInCommandLine
     ] = columnArgument;
 
-    (*numberOfCoaches)++;
+    (*numberOfCoachesGivenInCommandLine)++;
 }
