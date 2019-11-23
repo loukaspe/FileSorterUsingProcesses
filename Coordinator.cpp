@@ -7,6 +7,9 @@ const char* Coordinator::pipeNames[] = {
         "pipeCoordinatorCoach4"
 };
 
+char* Coordinator::MALLOC_FAIL_ERROR_MESSAGE = "ERROR: malloc() failed to "
+                                                "allocate memory";
+
 Coordinator::Coordinator(
     char* filename,
     int numberOfRecords,
@@ -43,8 +46,11 @@ void Coordinator::createPipeReaders() {
     int fd[this->numberOfCoaches];
 
     pipeReaders = (PipeReader**) malloc(
-            this->numberOfCoaches * sizeof(PipeReader)
+        this->numberOfCoaches * sizeof(PipeReader)
     );
+    if(pipeReaders == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     for(int i = 0; i < this->numberOfCoaches; i++) {
         pipeReaders[i] = new PipeReader(
@@ -59,10 +65,16 @@ void Coordinator::readFromPipesAndPrintStatistics() {
     double* executionTimeOfCoaches = (double*) malloc (
             numberOfCoaches * sizeof(double)
     );
+    if(executionTimeOfCoaches == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     double** executionTimeOfSortersOfCoaches = (double**) malloc(
             numberOfCoaches * sizeof(double*)
     );
+    if(executionTimeOfSortersOfCoaches == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     for(int i = 0; i < numberOfCoaches; i++) {
 
@@ -71,6 +83,9 @@ void Coordinator::readFromPipesAndPrintStatistics() {
         executionTimeOfSortersOfCoaches[i] = (double*) malloc(
             sortersToBeCreated * sizeof(double)
         );
+        if(executionTimeOfSortersOfCoaches[i] == NULL) {
+            Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+        }
 
         for(int j = 0; j < pow(2, i); j++) {
             executionTimeOfSortersOfCoaches[i][j] = pipeReaders[i]->readDoubleNumber();

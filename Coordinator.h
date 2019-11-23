@@ -25,6 +25,7 @@ private:
     static const char* pipeNames[];
     void createPipeReaders();
     void readFromPipesAndPrintStatistics();
+    static char* MALLOC_FAIL_ERROR_MESSAGE;
 };
 
 

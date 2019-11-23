@@ -40,6 +40,7 @@ private:
     static const char* OUTPUT_FILE_STARTING_TEXT;
     static const char* FOPEN_WRITING_MODE;
     static const char* ERROR_OPENING_FILE;
+    static char* MALLOC_FAIL_ERROR_MESSAGE;
 };
 
 #endif //LOUKASPETEINARIS_PRJ2_COACH_H

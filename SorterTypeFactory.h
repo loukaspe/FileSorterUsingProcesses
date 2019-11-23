@@ -24,10 +24,10 @@ public:
     SorterTypeFactory();
     void add(int, int);
     SorterType* getSorterTypes();
-    int getNumberOfSorterTypes();
 private:
     SorterType* sorterTypes;
     int numberOfSorterTypes;
+    static char* MALLOC_FAIL_ERROR_MESSAGE;
 };
 
 

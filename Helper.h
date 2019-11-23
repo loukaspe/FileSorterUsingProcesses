@@ -29,6 +29,7 @@ public:
     );
 private:
     static char* NO_SUCH_RECORD_COLUMN_ERROR_MESSAGE;
+    static char* MALLOC_FAIL_ERROR_MESSAGE;
 };
 
 #endif //LOUKASPETEINARIS_PRJ2_HELPER_H

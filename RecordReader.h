@@ -18,6 +18,7 @@ private:
     static char* READING_MODE;
     static char* NO_INPUT_FILE_ERROR;
     static char* ERROR_OPENING_FILE_MESSAGE;
+    static char* MALLOC_FAIL_ERROR_MESSAGE;
 };
 
 

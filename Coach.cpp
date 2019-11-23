@@ -34,6 +34,8 @@ const char* Coach::FOPEN_WRITING_MODE = "w";
 const char* Coach::ERROR_OPENING_FILE = "ERROR: Coach could not open file for "
                                         "writing sorted Records.";
 
+char* Coach::MALLOC_FAIL_ERROR_MESSAGE = "ERROR: malloc() failed to allocate memory";
+
 Coach::Coach(
     char* recordsFilename,
     char* pipeNameFromCoordinator,
@@ -59,6 +61,9 @@ void Coach::doAction() {
     double* executionTimeOfSorters = (double*) malloc (
         numberOfSortersToBeCreated * sizeof(double)
     );
+    if(executionTimeOfSorters == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     /* We create a string with size of the word 'fileOfSortedRecordsCoach%dColumn%d'
      * (24 chars) plus two numbers (2 char), that show the number of Coach and
@@ -66,6 +71,10 @@ void Coach::doAction() {
     char* filename = (char*) malloc (
         NUMBER_OF_CHARS_IN_OUTPUT_FILENAME * 2 * sizeof(char)
     );
+    if(filename == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
+
     /* We add 1 to ColumnNumber so that count of column starts from 1 */
     sprintf(filename, OUTPUT_FILENAME, coachNumber, columnNumber + 1);
 
@@ -82,6 +91,9 @@ void Coach::doAction() {
     SorterCaller** sorterCallers = (SorterCaller**) malloc(
         numberOfSortersToBeCreated * sizeof( SorterCaller* )
     );
+    if(sorterCallers == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     for(int i = 0; i < numberOfSortersToBeCreated; i++) {
         sorterCallers[i] = new SorterCaller(
@@ -164,6 +176,9 @@ void Coach::createPipeReadersFromSorters() {
     pipeReadersFromSorters = (PipeReader**) malloc(
             this->numberOfSortersToBeCreated * sizeof(PipeReader)
     );
+    if(pipeReadersFromSorters == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     for(int i = 0; i < this->numberOfSortersToBeCreated; i++) {
         pipeReadersFromSorters[i] = new PipeReader(

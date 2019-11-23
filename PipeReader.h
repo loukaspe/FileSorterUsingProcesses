@@ -30,6 +30,7 @@ class PipeReader {
         static const char* OPEN_PIPE_ERROR;
         static const char* READING_ERROR;
         void handlePipeError(const char*);
+        static char* MALLOC_FAIL_ERROR_MESSAGE;
 };
 
 

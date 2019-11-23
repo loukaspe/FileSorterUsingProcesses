@@ -1,6 +1,8 @@
 #include "CoachFactory.h"
 
 const char* CoachFactory::FORK_ERROR = "ERROR: fork() failed to create a new process";
+char* CoachFactory::MALLOC_FAIL_ERROR_MESSAGE = "ERROR: malloc() failed to "
+                                                "allocate memory";
 
 void CoachFactory::createCoachesAndDoAction(
         int numberOfCoaches,
@@ -12,11 +14,17 @@ void CoachFactory::createCoachesAndDoAction(
     Coach** coaches = (Coach**) malloc (
         numberOfCoaches * sizeof( Coach* )
     );
+    if(coaches == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     int fd[numberOfCoaches];
     PipeWriter** pipeWriters = (PipeWriter**) malloc(
         numberOfCoaches * sizeof(PipeWriter*)
     );
+    if(pipeWriters == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     double executionTimeOfCoach;
 

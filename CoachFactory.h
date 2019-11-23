@@ -20,6 +20,7 @@ public:
     );
 private:
     static const char* FORK_ERROR;
+    static char* MALLOC_FAIL_ERROR_MESSAGE;
 };
 
 #endif //LOUKASPETEINARIS_PRJ2_COACHFACTORY_H

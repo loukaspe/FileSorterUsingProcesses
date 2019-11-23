@@ -3,6 +3,9 @@
 char* Helper::NO_SUCH_RECORD_COLUMN_ERROR_MESSAGE = "ERROR: There is no column"
                                                     "with that number";
 
+char* Helper::MALLOC_FAIL_ERROR_MESSAGE = "ERROR: malloc() failed to "
+                                                "allocate memory";
+
 void Helper::handleError(const char * errorMessage) {
     fprintf(
             stderr,
@@ -36,7 +39,12 @@ void Helper::swapRecords(MyRecord* firstRecord, MyRecord* secondRecord) {
  * through this function here will pass the NyRecords' column to be sorted to
  * the heapSort and quickSort function as string */
 char* Helper::getRecordColumnAsString(MyRecord* record, int columnAsNumber) {
+
     char* temp = (char*) malloc(64 * sizeof(char) );
+    if(temp == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
+
     switch(columnAsNumber) {
         case 0:
             sprintf(temp, "%ld", record->custid);
@@ -73,6 +81,9 @@ MyRecord* Helper::createSubsetOfRecords(
     MyRecord* subsetOfRecords = (MyRecord*) malloc (
         subsetsSize * sizeof(MyRecord)
     );
+    if(subsetOfRecords == NULL) {
+        Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
+    }
 
     int j = 0;
     for(int i = startIndex; i <= endIndex; i++) {
