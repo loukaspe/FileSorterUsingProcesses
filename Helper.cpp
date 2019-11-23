@@ -93,12 +93,12 @@ void Helper::handleGivenHeapCoachFromCommandLine(
         int maxNumberOfCoaches
 ) {
     if(
-            *numberOfCoachesGivenInCommandLine >= maxNumberOfCoaches
-            || Helper::inArray(
-                columnArgument,
-                previousColumnArguments,
-                maxNumberOfCoaches
-            )
+        *numberOfCoachesGivenInCommandLine >= maxNumberOfCoaches
+        || Helper::inArray(
+            columnArgument,
+            previousColumnArguments,
+            maxNumberOfCoaches
+        )
     ) {
         return;
     }
@@ -121,12 +121,12 @@ void Helper::handleGivenQuickCoachFromCommandLine(
         int maxNumberOfCoaches
 ) {
     if(
-            *numberOfCoachesGivenInCommandLine >= maxNumberOfCoaches
-            || Helper::inArray(
-                columnArgument,
-                previousColumnArguments,
-                maxNumberOfCoaches
-            )
+        *numberOfCoachesGivenInCommandLine >= maxNumberOfCoaches
+        || Helper::inArray(
+            columnArgument,
+            previousColumnArguments,
+            maxNumberOfCoaches
+        )
     ) {
         return;
     }

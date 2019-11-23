@@ -39,14 +39,12 @@ Coach::Coach(
     char* pipeNameFromCoordinator,
     int numberOfRecords,
     int coachNumber,
-    long bufferSize,
     SorterType* type
 ) {
     this->recordFilename = recordsFilename;
     this->pipeNameFromCoordinator = pipeNameFromCoordinator,
     this->numberOfRecords = numberOfRecords;
     this->coachNumber = coachNumber;
-    this->bufferSize = bufferSize;
     this->type = type;
 
     getSortersToBeCreatedNumberFromCoachNumber();
@@ -62,7 +60,8 @@ void Coach::doAction() {
     char* filename = (char*) malloc (
         NUMBER_OF_CHARS_IN_OUTPUT_FILENAME * 2 * sizeof(char)
     );
-    sprintf(filename, OUTPUT_FILENAME, coachNumber, columnNumber);
+    /* We add 1 to ColumnNumber so that count of column starts from 1 */
+    sprintf(filename, OUTPUT_FILENAME, coachNumber, columnNumber + 1);
 
     fileOfSortedRecords = fopen(filename, FOPEN_WRITING_MODE);
     if( fileOfSortedRecords == NULL ) {
@@ -140,6 +139,7 @@ void Coach::doAction() {
 
     fclose(fileOfSortedRecords);
     // free records
+
 }
 
 void Coach::getSortersToBeCreatedNumberFromCoachNumber() {

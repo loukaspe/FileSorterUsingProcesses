@@ -15,7 +15,6 @@ public:
         int,
         char*,
         char**,
-        long,
         int,
         SorterType*
     );

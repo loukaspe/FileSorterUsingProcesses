@@ -10,13 +10,11 @@ const char* Coordinator::pipeNames[] = {
 Coordinator::Coordinator(
     char* filename,
     int numberOfRecords,
-    long bufferSize,
     int numberOfCoaches,
     SorterType* sorterTypes
 ) {
     this->recordsFilename = filename;
     this->numberOfRecords = numberOfRecords;
-    this->bufferSize = bufferSize;
     this->numberOfCoaches = numberOfCoaches;
     this->sorterTypes = sorterTypes;
 }
@@ -33,7 +31,6 @@ void Coordinator::doAction() {
         this->numberOfCoaches,
         this->recordsFilename,
         const_cast<char **>(Coordinator::pipeNames),
-        this->bufferSize,
         this->numberOfRecords,
         this->sorterTypes
     );

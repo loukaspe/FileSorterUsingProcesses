@@ -4,7 +4,7 @@ const char* PROGRAM_OPTIONS = "h:q:";
 const char* WRONG_PROGRAM_USAGE_ERROR = "ERROR: Wrong Program Call. Please give"
                                         " coaches and sorters options.";
 const int MAX_NUMBER_OF_COACHES = 4;
-const long BUFFER_SIZE = 1024;
+const int RANDOM_NUMBER = 152365;
 
 int main(int argc, char** argv) {
 
@@ -32,6 +32,13 @@ int main(int argc, char** argv) {
      * equal to 4 as the maximum of coaches is 4 */
     int previousColumnArguments[MAX_NUMBER_OF_COACHES];
 
+    /* We initialise previousColumnArguments[i] to a random number larger than the
+     * number of columns in the file to be sure that none of the values of the
+     * array is equal to 0, which is the first column in our implementation */
+    for(int i = 0; i < MAX_NUMBER_OF_COACHES; i++) {
+        previousColumnArguments[i] = RANDOM_NUMBER;
+    }
+
     /* We keep the information of the Program Arguments to a SorterTypeArray
      * struct in order to give it to the Coach */
     SorterTypeFactory* sorterTypeFactory = new SorterTypeFactory();
@@ -43,7 +50,9 @@ int main(int argc, char** argv) {
     while ( (opt = getopt(argc, argv, PROGRAM_OPTIONS)) != -1 ) {
         switch (opt) {
             case 'h':
-                columnArgument = atoi(optarg);
+                // We reduce the column number by 1 as the user input starts from
+                // number 1 and in our implementation it starts from 0
+                columnArgument = atoi(optarg) - 1;
                 Helper::handleGivenHeapCoachFromCommandLine(
                     &numberOfCoaches,
                     &numberOfCoachesGivenInCommandLine,
@@ -54,7 +63,7 @@ int main(int argc, char** argv) {
                 );
                 break;
             case 'q':
-                columnArgument = atoi(optarg);
+                columnArgument = atoi(optarg) - 1;
                 Helper::handleGivenQuickCoachFromCommandLine(
                     &numberOfCoaches,
                     &numberOfCoachesGivenInCommandLine,
@@ -74,7 +83,6 @@ int main(int argc, char** argv) {
     Coordinator* coordinator = new Coordinator(
         filename,
         numberOfRecords,
-        BUFFER_SIZE,
         numberOfCoaches,
         sorterTypes
     );

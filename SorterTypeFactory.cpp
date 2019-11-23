@@ -10,6 +10,7 @@ void SorterTypeFactory::add(int sorterType, int columnNumber) {
         this->sorterTypes = (SorterType*) malloc ( sizeof(SorterType) );
         sorterTypes[0].columnNumber = columnNumber;
         sorterTypes[0].sorterType = sorterType;
+        this->numberOfSorterTypes++;
         return;
     }
 
