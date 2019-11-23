@@ -23,7 +23,7 @@ char* Coach::pipeNamesForSorters[][8] = {
         }
 };
 
-const int Coach::NUMBER_OF_CHARS_IN_OUTPUT_FILENAME = 25;
+const int Coach::NUMBER_OF_CHARS_IN_OUTPUT_FILENAME = 32;
 
 const char* Coach::OUTPUT_FILENAME = "fileOfSortedRecordsCoach%dColumn%d";
 const char* Coach::OUTPUT_FILE_STARTING_TEXT = "Coach %d From Sorter %d on "
@@ -56,10 +56,11 @@ void Coach::doAction() {
     FILE* fileOfSortedRecords;
     int columnNumber = type->columnNumber;
 
-    /* We create a string with size of the word 'fileOfSortedRecordsCoach' (24 chars)
-     * plus a number (1 char), that shows the number of Coach */
+    /* We create a string with size of the word 'fileOfSortedRecordsCoach%dColumn%d'
+     * (24 chars) plus two numbers (2 char), that show the number of Coach and
+     * the number of column */
     char* filename = (char*) malloc (
-        NUMBER_OF_CHARS_IN_OUTPUT_FILENAME * sizeof(char)
+        NUMBER_OF_CHARS_IN_OUTPUT_FILENAME * 2 * sizeof(char)
     );
     sprintf(filename, OUTPUT_FILENAME, coachNumber, columnNumber);
 
@@ -99,10 +100,11 @@ void Coach::doAction() {
         sorterCallers[i]->callSorter();
 
         int retrievedRecordsBufferSize = pipeReadersFromSorters[i]->readNumber();
-        int retrievedRecordsNumber = retrievedRecordsBufferSize / sizeof(MyRecord);
-        MyRecord* retrievedRecords = (MyRecord*) malloc (
-            retrievedRecordsBufferSize * sizeof(MyRecord)
-        );
+        int retrievedRecordsNumber = (
+                retrievedRecordsBufferSize / sizeof(MyRecord)
+        ) - 1;
+
+        MyRecord* retrievedRecords;
         retrievedRecords = pipeReadersFromSorters[i]->readRecords(
             retrievedRecordsBufferSize
         );
