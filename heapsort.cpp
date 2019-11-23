@@ -44,10 +44,10 @@ int main(int argc, char* argv[]) {
     pipeWriterToCoach->writeRecords(subsetOfRecords, bufferSize);
 
     deletePointers(
-            RecordReader,
-            records,
-            subsetOfRecords,
-            pipeWriterToCoach
+        RecordReader,
+        totalRecords,
+        subsetOfRecords,
+        pipeWriterToCoach
     );
 
     return 0;

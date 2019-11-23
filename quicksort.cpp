@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 
     deletePointers(
         RecordReader,
-        records,
+        totalRecords,
         subsetOfRecords,
         pipeWriterToCoach
     );
