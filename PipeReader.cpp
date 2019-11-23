@@ -26,6 +26,10 @@ PipeReader::PipeReader(int fd, const char* filename) {
     }
 }
 
+PipeReader::~PipeReader() {
+    close(fd);
+}
+
 
 int PipeReader::readNumber() {
     int* number = (int*) malloc( sizeof(int) );

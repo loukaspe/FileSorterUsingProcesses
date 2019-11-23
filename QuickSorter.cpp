@@ -12,10 +12,10 @@ void QuickSorter::quickSort(
     if (startIndex < endIndex)
     {
         int partitioningIndex = partition(
-                records,
-                startIndex,
-                endIndex,
-                column
+            records,
+            startIndex,
+            endIndex,
+            column
         );
 
         quickSort(records, startIndex, partitioningIndex - 1, column);

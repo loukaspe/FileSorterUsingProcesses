@@ -1,7 +1,7 @@
 /* This class will represent the Coordinator of the Project. I chose to implement
- * the Coordinator, Coach, and QuickSorter as classes with a function doAction() that
+ * the Coordinator and the Coach as classes with a function doAction() that
  * will do the things each class is supposed to do. The coordinator will create
- * the pipes and the coaches. */
+ * the pipes and the coaches and will print the Execution Times */
 
 #ifndef LOUKASPETEINARIS_PRJ2_COORDINATOR_H
 #define LOUKASPETEINARIS_PRJ2_COORDINATOR_H
@@ -15,6 +15,7 @@
 class Coordinator {
 public:
     Coordinator(char*, int, int, SorterType*);
+    ~Coordinator();
     void doAction();
 private:
     char* recordsFilename;

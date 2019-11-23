@@ -66,7 +66,7 @@ void Coach::doAction() {
     }
 
     /* We create a string with size of the word 'fileOfSortedRecordsCoach%dColumn%d'
-     * (24 chars) plus two numbers (2 char), that show the number of Coach and
+     * (30 chars) plus two numbers (2 char), that show the number of Coach and
      * the number of column */
     char* filename = (char*) malloc (
         NUMBER_OF_CHARS_IN_OUTPUT_FILENAME * 2 * sizeof(char)
@@ -106,6 +106,7 @@ void Coach::doAction() {
             pipeNamesForSorters[coachNumber][i]
         );
 
+        /* We count the time before and after the call of sorter */
         startTimeOfSorter = clock();
         sorterCallers[i]->callSorter();
         endTimeOfSorter = clock();
@@ -114,7 +115,10 @@ void Coach::doAction() {
             endTimeOfSorter - startTimeOfSorter
         ) / CLOCKS_PER_SEC;
 
+        /* From the independent sort programs we have passed firstly an integer
+         * for the bufferSize needed to retrieve the Records from the named pipes */
         int retrievedRecordsBufferSize = pipeReadersFromSorters[i]->readNumber();
+        // We calculate the number of Records that were retrieved
         int retrievedRecordsNumber = (
                 retrievedRecordsBufferSize / sizeof(MyRecord)
         ) - 1;
@@ -151,16 +155,21 @@ void Coach::doAction() {
                 retrievedRecords[j].amount
             );
         }
+
+        delete retrievedRecords;
     }
 
-    fclose(fileOfSortedRecords);
 
     for(int i = 0; i < numberOfSortersToBeCreated; i++) {
         pipeWriterToCoordinator->writeDoubleNumber(executionTimeOfSorters[i]);
     }
 
-    // free records
-
+    deletePointers(
+        executionTimeOfSorters,
+        sorterCallers,
+        numberOfSortersToBeCreated
+    );
+    fclose(fileOfSortedRecords);
 }
 
 void Coach::getSortersToBeCreatedNumberFromCoachNumber() {
@@ -191,4 +200,16 @@ void Coach::createPipeReadersFromSorters() {
 void Coach::createPipeWritersToCoordinator() {
     int fd;
     pipeWriterToCoordinator = new PipeWriter(fd, pipeNameFromCoordinator);
+}
+
+void Coach::deletePointers(
+    double* executionTimeOfSorters,
+    SorterCaller** sorterCallers,
+    int sorterCallersNumbers
+) {
+    delete executionTimeOfSorters;
+    for(int i = 0; i < sorterCallersNumbers; i++) {
+        delete sorterCallers[i];
+    }
+    delete sorterCallers;
 }

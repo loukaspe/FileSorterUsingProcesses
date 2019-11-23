@@ -1,6 +1,7 @@
 /* This class will represent the Coaches of the Project. The coaches will create
  * the pipes for Coordinator, the pipes for the Sorters and the Sorters themselves
- * through the SorterFactory class. */
+ * through the SorterFactory class. Also they will count the execution time of
+ * Sorters and pass it to the coordinator by named pipes */
 
 /* Sources for counting time of execution:
  * https://www.geeksforgeeks.org/how-to-measure-time-taken-by-a-program-in-c/
@@ -41,6 +42,7 @@ private:
     static const char* FOPEN_WRITING_MODE;
     static const char* ERROR_OPENING_FILE;
     static char* MALLOC_FAIL_ERROR_MESSAGE;
+    void deletePointers(double*, SorterCaller**, int);
 };
 
 #endif //LOUKASPETEINARIS_PRJ2_COACH_H

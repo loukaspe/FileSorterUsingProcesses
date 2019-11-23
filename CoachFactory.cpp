@@ -52,6 +52,8 @@ void CoachFactory::createCoachesAndDoAction(
                 &sorterTypes[i]
             );
 
+            // We count the time before and after we call doAction() on the Coaches
+            // and we pass this time to the Coordinator
             startTimeOfCoach = clock();
             coaches[i]->doAction();
             endTimeOfCoach = clock();
@@ -66,9 +68,14 @@ void CoachFactory::createCoachesAndDoAction(
             );
             pipeWriters[i]->writeDoubleNumber(executionTimeOfCoach);
 
+            delete pipeWriters[i];
+            delete(coaches[i]);
             exit(0);
         }
 
         wait(NULL);
     }
+
+    delete coaches;
+    delete pipeWriters;
 }

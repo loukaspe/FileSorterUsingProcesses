@@ -22,6 +22,11 @@ Coordinator::Coordinator(
     this->sorterTypes = sorterTypes;
 }
 
+Coordinator::~Coordinator() {
+    delete sorterTypes;
+
+}
+
 void Coordinator::doAction() {
 
     /* Firstly we create our pipes for reading from Coaches */
@@ -36,6 +41,7 @@ void Coordinator::doAction() {
         this->sorterTypes
     );
 
+    // Then we read data from the named pipes and we print the statistics
     readFromPipesAndPrintStatistics();
 }
 
@@ -87,6 +93,7 @@ void Coordinator::readFromPipesAndPrintStatistics() {
             Helper::handleError(MALLOC_FAIL_ERROR_MESSAGE);
         }
 
+        // We retrieve execution time for every sorter of Coach i
         for(int j = 0; j < pow(2, i); j++) {
             executionTimeOfSortersOfCoaches[i][j] = pipeReaders[i]->readDoubleNumber();
         }
@@ -108,6 +115,7 @@ void Coordinator::readFromPipesAndPrintStatistics() {
         cout << "\tMIN: " << minExecutionTimeOfSortersOfCoaches << endl;
         cout << "\tAVERAGE: " << averageExecutionTimeOfSortersOfCoaches << endl;
 
+        // We retrieve execution time for Coach i
         executionTimeOfCoaches[i] = pipeReaders[i]->readDoubleNumber();
     }
 
@@ -128,5 +136,11 @@ void Coordinator::readFromPipesAndPrintStatistics() {
     cout << "\tMAX: " << maxExecutionTimeOfCoaches << endl;
     cout << "\tMIN: " << minExecutionTimeOfCoaches << endl;
     cout << "\tAverage: " << averageExecutionTimeOfCoaches << endl;
+
+    delete executionTimeOfCoaches;
+    for(int i = 0; i < numberOfCoaches; i++) {
+        delete executionTimeOfSortersOfCoaches[i];
+    }
+    delete executionTimeOfSortersOfCoaches;
 }
 

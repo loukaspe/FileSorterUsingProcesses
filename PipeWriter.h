@@ -1,4 +1,4 @@
-/* This class will contain the function to be used for writing in Named Pipes in
+/* This class will contain the functions to be used for writing in Named Pipes in
  * the Project.
  * Source for Named Pipes and implementing them in my processes your given:
  * http://cgi.di.uoa.gr/~ad/k22/Rec2-ProcsIPC.pdf
@@ -20,6 +20,7 @@
 class PipeWriter {
     public:
         PipeWriter(int, const char*);
+        ~PipeWriter();
         void writeNumber(int);
         void writeDoubleNumber(double);
         void writeRecords(MyRecord*, long);
@@ -31,7 +32,6 @@ class PipeWriter {
         static const char* MKFIFO_ERROR;
         static const char* OPEN_PIPE_ERROR;
         static const char* WRITING_ERROR;
-        static const char* NOT_ENOUGH_BUFFER_SIZE_ERROR;
         void handlePipeError(const char*);
 };
 

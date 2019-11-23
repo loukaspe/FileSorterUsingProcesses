@@ -1,8 +1,9 @@
 #ifndef LOUKASPETEINARIS_PRJ2_HELPER_H
 #define LOUKASPETEINARIS_PRJ2_HELPER_H
 
-/* Helper Class contains various function that should not technically be
- * part of other classes and have more general usage */
+/* Helper Class contains various functions that should not technically be
+ * part of other classes and have more general usage, or large functions that were
+ * moved here to reduce the number of lines in other classes */
 
 #include <cstring>
 #include <cstdlib>

@@ -8,6 +8,10 @@ SorterTypeFactory::SorterTypeFactory() {
     this->numberOfSorterTypes = 0;
 }
 
+SorterTypeFactory::~SorterTypeFactory() {
+    delete sorterTypes;
+}
+
 void SorterTypeFactory::add(int sorterType, int columnNumber) {
 
     if(numberOfSorterTypes == 0) {

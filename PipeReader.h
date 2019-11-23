@@ -1,4 +1,4 @@
-/* This class will contain the function to be used for reading from Named Pipes in
+/* This class will contain the functions to be used for reading from Named Pipes in
  * the Project.
  * Source for Named Pipes and implementing them in my processes your given:
  * http://cgi.di.uoa.gr/~ad/k22/Rec2-ProcsIPC.pdf
@@ -18,6 +18,7 @@
 class PipeReader {
     public:
         PipeReader(int, const char*);
+        ~PipeReader();
         int readNumber();
         double readDoubleNumber();
         MyRecord* readRecords(long);

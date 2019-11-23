@@ -15,7 +15,6 @@ void Helper::handleError(const char * errorMessage) {
     exit(EXIT_FAILURE);
 }
 
-
 bool Helper::inArray(int needle, int haystack[], int haystackSize) {
     int i;
     for( i = 0; i < haystackSize; i++) {
@@ -36,7 +35,7 @@ void Helper::swapRecords(MyRecord* firstRecord, MyRecord* secondRecord) {
 
 /* This is a function that will be used in the Heap and Quick Sorters. These
  * sorters will take as argument for sorting a whole array of MyRecords and
- * through this function here will pass the NyRecords' column to be sorted to
+ * through this function here will pass the MyRecords' column to be sorted to
  * the heapSort and quickSort function as string */
 char* Helper::getRecordColumnAsString(MyRecord* record, int columnAsNumber) {
 
@@ -149,6 +148,7 @@ void Helper::handleGivenQuickCoachFromCommandLine(
     (*numberOfCoachesGivenInCommandLine)++;
 }
 
+/* Function for finding max, min and average values in an array of doubles */
 double Helper::findMaxInArrayOfDouble(double* numbers, int size) {
     double max = numbers[0];
 

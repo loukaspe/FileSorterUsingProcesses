@@ -46,6 +46,11 @@ int main(int argc, char** argv) {
      * maximum of Coaches we can create and if the column given as argument is
      * not in the previousColumnsArguments array */
     while ( (opt = getopt(argc, argv, PROGRAM_OPTIONS)) != -1 ) {
+
+        if(numberOfCoachesGivenInCommandLine > MAX_NUMBER_OF_COACHES) {
+            Helper::handleError(WRONG_PROGRAM_USAGE_ERROR);
+        }
+
         switch (opt) {
             case 'h':
                 // We reduce the column number by 1 as the user input starts from
@@ -84,5 +89,8 @@ int main(int argc, char** argv) {
     );
     coordinator->doAction();
 
+    delete sorterTypeFactory;
+    delete records;
+    delete recordReader;
     return 0;
 }

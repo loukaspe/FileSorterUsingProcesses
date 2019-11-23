@@ -1,3 +1,6 @@
+/* Class to create SorterType(explanation for it below) from the given input from
+ * the command line */
+
 #ifndef LOUKASPETEINARIS_PRJ2_SORTERTYPEFACTORY_H
 #define LOUKASPETEINARIS_PRJ2_SORTERTYPEFACTORY_H
 
@@ -22,6 +25,7 @@ typedef struct SorterType {
 class SorterTypeFactory {
 public:
     SorterTypeFactory();
+    ~SorterTypeFactory();
     void add(int, int);
     SorterType* getSorterTypes();
 private:

@@ -1,4 +1,6 @@
-/* Source: Your given file verify.c */
+/* Class for reading the Records from the given Binary File and retrieving the
+ * Records and their number
+ * Source: Your given file verify.c */
 
 #ifndef LOUKASPETEINARIS_PRJ2_RECORDREADER_H
 #define LOUKASPETEINARIS_PRJ2_RECORDREADER_H

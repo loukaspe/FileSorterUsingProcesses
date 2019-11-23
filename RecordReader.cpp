@@ -42,7 +42,6 @@ MyRecord* RecordReader::fetchAllRecords() {
     }
 
     fclose(inputFile);
-
     return records;
 }
 
